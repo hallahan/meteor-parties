@@ -147,15 +147,20 @@ Template.leafletMapTemp.rendered = function() {
 
   map.on('click', function(e) {
     console.log('clicked at latlong: ' + e.latlng);
-  });
+  });  
 
   if (! self.handle) {
     self.handle = Deps.autorun(function () {
       var parties = Parties.find().fetch();
       if (parties.length) {
+        var selected = Session.get('selected');
         for (i in parties) {
           var party = parties[i];
-          L.circle([party.lat, party.lng], 100, circleStyle).addTo(map);
+          if (party._id === selected) {
+            L.circle([party.lat, party.lng], 100, selectedCircleStyle).addTo(map);
+          } else {
+            L.circle([party.lat, party.lng], 100, circleStyle).addTo(map);
+          }
         }
       }
     });
