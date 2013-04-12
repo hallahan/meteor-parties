@@ -163,11 +163,18 @@ Template.leafletMapTemp.rendered = function() {
         }
         for (i in parties) {
           var party = parties[i];
+          var circle;
           if (party._id === selected) {
-            circles.push(L.circle([party.lat, party.lng], 100, selectedCircleStyle).addTo(map));
+            circle = L.circle([party.lat, party.lng], 100, selectedCircleStyle);
           } else {
-            circles.push(L.circle([party.lat, party.lng], 100, circleStyle).addTo(map));
+            circle = L.circle([party.lat, party.lng], 100, circleStyle);
           }
+          circle.partyId = party._id; 
+          circle.addTo(map);
+          circles.push(circle);
+          circle.on('click', function(e) {
+            Session.set("selected", this.partyId);
+          });
         }
       }
     });
