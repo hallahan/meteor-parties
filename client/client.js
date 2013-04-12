@@ -122,7 +122,8 @@ Template.map.events({
   }
 });
 
-var map;
+map = null;
+circles = [];
 
 Template.leafletMapTemp.rendered = function() {
   var self = this;
@@ -154,12 +155,17 @@ Template.leafletMapTemp.rendered = function() {
       var parties = Parties.find().fetch();
       if (parties.length) {
         var selected = Session.get('selected');
+
+        //before redawing circles, we want to delete the current ones
+        for (i in circles) {
+          map.removeLayer(circles[i]);
+        }
         for (i in parties) {
           var party = parties[i];
           if (party._id === selected) {
-            L.circle([party.lat, party.lng], 100, selectedCircleStyle).addTo(map);
+            circles.push(L.circle([party.lat, party.lng], 100, selectedCircleStyle).addTo(map));
           } else {
-            L.circle([party.lat, party.lng], 100, circleStyle).addTo(map);
+            circles.push(L.circle([party.lat, party.lng], 100, circleStyle).addTo(map));
           }
         }
       }
