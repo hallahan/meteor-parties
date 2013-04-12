@@ -122,7 +122,11 @@ Template.map.events({
   }
 });
 
+var map;
+
 Template.leafletMapTemp.rendered = function() {
+  var self = this;
+
   map = L.map('leaflet-map').setView([44.53,-123.262911], 13);
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18
@@ -144,6 +148,18 @@ Template.leafletMapTemp.rendered = function() {
   map.on('click', function(e) {
     console.log('clicked at latlong: ' + e.latlng);
   });
+
+  if (! self.handle) {
+    self.handle = Deps.autorun(function () {
+      var parties = Parties.find().fetch();
+      if (parties.length) {
+        for (i in parties) {
+          var party = parties[i];
+          L.circle([party.lat, party.lng], 100, circleStyle).addTo(map);
+        }
+      }
+    });
+  }
 }
 
 Template.map.rendered = function () {
