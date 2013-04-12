@@ -127,6 +127,23 @@ Template.leafletMapTemp.rendered = function() {
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18
   }).addTo(map);
+
+  var selectedCircleStyle = {
+      stroke: true,
+      color: 'red',
+      fillColor: '#49AFCD',
+      fillOpacity: 0.75,
+      opacity: 0.9
+    };
+  var circleStyle = {
+    stroke: false,
+    fillColor: '#49AFCD',
+    fillOpacity: 0.5
+  };
+
+  map.on('click', function(e) {
+    console.log('clicked at latlong: ' + e.latlng);
+  });
 }
 
 Template.map.rendered = function () {
