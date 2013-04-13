@@ -144,15 +144,15 @@ Template.leafletMapTemp.rendered = function() {
 
   var selectedCircleStyle = {
       stroke: true,
-      color: 'red',
-      fillColor: '#49AFCD',
+      color: 'yellow',
+      fillColor: '#fb4e00',
       fillOpacity: 0.75,
       opacity: 0.9
     };
   var circleStyle = {
     stroke: false,
-    fillColor: '#49AFCD',
-    fillOpacity: 0.5
+    fillColor: '#fb4e00',
+    fillOpacity: 0.8
   };
 
   map.on('click', function(e) {
@@ -181,9 +181,9 @@ Template.leafletMapTemp.rendered = function() {
           var party = parties[i];
           var circle;
           if (party._id === selected) {
-            circle = L.circle([party.lat, party.lng], 100, selectedCircleStyle);
+            circle = L.circle([party.lat, party.lng], 120, selectedCircleStyle);
           } else {
-            circle = L.circle([party.lat, party.lng], 100, circleStyle);
+            circle = L.circle([party.lat, party.lng], 120, circleStyle);
           }
           circle.partyId = party._id; 
           circle.addTo(map);
