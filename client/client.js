@@ -135,7 +135,7 @@ circles = [];
 
 Template.leafletMapTemp.rendered = function() {
   var self = this;
-
+  
   map = L.map('leaflet-map').setView([44.53,-123.262911], 13);
   L.tileLayer('http://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 18,
@@ -167,34 +167,32 @@ Template.leafletMapTemp.rendered = function() {
     }
   });  
 
-  if (! self.handle) {
-    self.handle = Deps.autorun(function () {
-      var parties = Parties.find().fetch();
-      if (parties.length) {
-        var selected = Session.get('selected');
+  self.handle = Deps.autorun(function () {
+    var parties = Parties.find().fetch();
+    if (parties.length) {
+      var selected = Session.get('selected');
 
-        //before redawing circles, we want to delete the current ones
-        for (i in circles) {
-          map.removeLayer(circles[i]);
-        }
-        for (i in parties) {
-          var party = parties[i];
-          var circle;
-          if (party._id === selected) {
-            circle = L.circle([party.lat, party.lng], 120, selectedCircleStyle);
-          } else {
-            circle = L.circle([party.lat, party.lng], 120, circleStyle);
-          }
-          circle.partyId = party._id; 
-          circle.addTo(map);
-          circles.push(circle);
-          circle.on('click', function(e) {
-            Session.set("selected", this.partyId);
-          });
-        }
+      //before redawing circles, we want to delete the current ones
+      for (i in circles) {
+        map.removeLayer(circles[i]);
       }
-    });
-  }
+      for (i in parties) {
+        var party = parties[i];
+        var circle;
+        if (party._id === selected) {
+          circle = L.circle([party.lat, party.lng], 120, selectedCircleStyle);
+        } else {
+          circle = L.circle([party.lat, party.lng], 120, circleStyle);
+        }
+        circle.partyId = party._id; 
+        circle.addTo(map);
+        circles.push(circle);
+        circle.on('click', function(e) {
+          Session.set("selected", this.partyId);
+        });
+      }
+    }
+  });
 }
 
 Template.map.rendered = function () {
