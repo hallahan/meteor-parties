@@ -37,7 +37,7 @@
 
         <div class="row">
           <div class="span6">
-            {{> map}}
+            {{> leafletMapTemp}}
             {{#if currentUser}}
             <div class="pagination-centered">
               <em><small>Double click the map to post a party!</small></em>
@@ -50,8 +50,7 @@
         </div>
         <div class="row">
           <div class="span6">
-            {{> leafletMapTemp}}
-            
+            {{> map}}
             {{#if currentUser}}
             <div class="pagination-centered">
               <em><small>Double click the map to post a party!</small></em>
