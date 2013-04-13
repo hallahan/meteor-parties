@@ -122,6 +122,14 @@ Template.map.events({
   }
 });
 
+x = 0.025;
+y = 0.025;
+fakeCoord = function (){
+  x += 0.08;
+  y += 0.08;
+  return {x:x.toPrecision(5),y:y.toPrecision(5)};
+}
+
 map = null;
 circles = [];
 
@@ -149,6 +157,14 @@ Template.leafletMapTemp.rendered = function() {
 
   map.on('click', function(e) {
     console.log('clicked at latlong: ' + e.latlng);
+
+    // ctrl is meta key to add a new party
+    if (e.originalEvent.ctrlKey === true) {
+      if (! Meteor.userId()) // must be logged in to create events
+        return;
+      var fake = fakeCoord();
+      openCreateDialog(fake.x, fake.y, e.latlng.lat, e.latlng.lng);
+    }
   });  
 
   if (! self.handle) {
@@ -254,8 +270,8 @@ Template.map.destroyed = function () {
 ///////////////////////////////////////////////////////////////////////////////
 // Create Party dialog
 
-var openCreateDialog = function (x, y) {
-  Session.set("createCoords", {x: x, y: y});
+var openCreateDialog = function (x, y, lat, lng) {
+  Session.set("createCoords", {x: x, y: y, lat: lat, lng: lng});
   Session.set("createError", null);
   Session.set("showCreateDialog", true);
 };
@@ -277,6 +293,8 @@ Template.createDialog.events({
         description: description,
         x: coords.x,
         y: coords.y,
+        lat: coords.lat,
+        lng: coords.lng,
         public: public
       }, function (error, party) {
         if (! error) {

@@ -46,12 +46,13 @@ Meteor.methods({
   // options should include: title, description, x, y, public
   createParty: function (options) {
     options = options || {};
-    if (! (typeof options.title === "string" && options.title.length &&
-           typeof options.description === "string" &&
-           options.description.length &&
-           typeof options.x === "number" && options.x >= 0 && options.x <= 1 &&
-           typeof options.y === "number" && options.y >= 0 && options.y <= 1))
-      throw new Meteor.Error(400, "Required parameter missing");
+    // NH - validation breaks when trying to use lat lng
+    // if (! (typeof options.title === "string" && options.title.length &&
+    //        typeof options.description === "string" &&
+    //        options.description.length &&
+    //        typeof options.x === "number" && options.x >= 0 && options.x <= 1 &&
+    //        typeof options.y === "number" && options.y >= 0 && options.y <= 1 ))
+    //   throw new Meteor.Error(400, "Required parameter missing");
     if (options.title.length > 100)
       throw new Meteor.Error(413, "Title too long");
     if (options.description.length > 1000)
@@ -63,6 +64,8 @@ Meteor.methods({
       owner: this.userId,
       x: options.x,
       y: options.y,
+      lat: options.lat,
+      lng: options.lng,
       title: options.title,
       description: options.description,
       public: !! options.public,
