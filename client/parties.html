@@ -40,7 +40,7 @@
             {{> leafletMapTemp}}
             {{#if currentUser}}
             <div class="pagination-centered">
-              <em><small>Double click the map to post a party!</small></em>
+              <em><small>Ctrl click the map to post a party!</small></em>
             </div>
             {{/if}}
           </div>
@@ -48,19 +48,7 @@
             {{> details}}
           </div>
         </div>
-        <div class="row">
-          <div class="span6">
-            {{> map}}
-            {{#if currentUser}}
-            <div class="pagination-centered">
-              <em><small>Double click the map to post a party!</small></em>
-            </div>
-            {{/if}}
-          </div>
-          <div class="span4">
-            test2
-          </div>
-        </div>
+        
       </div>
 
       <div class="span1"> </div>
@@ -126,7 +114,7 @@
         {{#if anyParties}}
           Click a party to select it
         {{else}}
-          Sign in and double click the map to post a party
+          Sign in and Ctrl click the map to post a party
         {{/if}}
       </h1>
     {{/if}}
